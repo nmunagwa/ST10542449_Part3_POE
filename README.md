@@ -1,8 +1,7 @@
-#ST10542449
 # QuickChat – Part 3: Store Data and Display
 
-**Module:** PROG5121 – Programming 1A
-**Author:** ST10542449
+**Module:** PROG5121 – Programming 1A  
+**Student number:** ST10542449
 
 QuickChat is a Java console application. A user registers, logs in, and then sends, disregards or stores messages. Part 3 adds arrays that hold the messages, a JSON file for stored messages, a "Stored Messages" menu, and automated unit tests that run on GitHub.
 
@@ -48,18 +47,20 @@ The **Stored Messages** menu (main menu option 3) lets the user:
 ## Project structure
 
 ```
-Main/
-├── .github/workflows/TestJava.yml      GitHub Actions workflow that runs the tests
-├── messages.json                        Stored messages read when the app starts
-├── pom.xml                              Maven build file
-└── src/
-    ├── main/java/com/mycompany/main/
-    │   ├── Main.java                    Registration, login and menus
-    │   ├── Message.java                 Message creation, ID, hash, validation
-    │   └── MessageStore.java            Part 3 arrays and their operations
-    └── test/java/com/mycompany/main/
-        ├── MessageTest.java             Tests for Message
-        └── MessageStoreTest.java        Tests for the Part 3 arrays and functions
+ST10542449_Part3_POE/
+├── .github/workflows/TestJava.yml        GitHub Actions workflow that runs the tests
+├── README.md
+└── Main/
+    ├── messages.json                      Stored messages read when the app starts
+    ├── pom.xml                            Maven build file
+    └── src/
+        ├── main/java/com/mycompany/main/
+        │   ├── Main.java                  Registration, login and menus
+        │   ├── Message.java               Message creation, ID, hash, validation
+        │   └── MessageStore.java          Part 3 arrays and their operations
+        └── test/java/com/mycompany/main/
+            ├── MessageTest.java           Tests for Message
+            └── MessageStoreTest.java      Tests for the Part 3 arrays and functions
 ```
 
 ---
@@ -71,15 +72,15 @@ Main/
 
 ## How to run
 
-**In NetBeans:** open the project, right-click it and choose **Run**.
+**In NetBeans:** open the `Main` project, right-click it and choose **Run**.
 
-**From the command line:**
+**From the command line** (inside the `Main` folder):
 ```
 mvn compile
 mvn exec:java -Dexec.mainClass="com.mycompany.main.Main"
 ```
 
-`messages.json` must be in the folder you run the program from (the project root, next to `pom.xml`).
+`messages.json` must be in the folder you run the program from (the project folder, next to `pom.xml`).
 
 ### Example flow
 1. Register a user (example: username `ab_cd`, password `Pass@1234`, phone `+27718693002`).
@@ -120,11 +121,24 @@ The program reads this file when QuickChat starts and adds each entry to the arr
 
 ## Unit tests
 
-Run all tests with:
+Run all tests (inside the `Main` folder) with:
 ```
 mvn test
 ```
 
 `MessageStoreTest` checks:
 - The Sent Messages array contains the expected messages.
-- The longest stored message is displayed
+- The longest stored message is displayed correctly.
+- Searching by message ID returns the right message.
+- Searching by recipient `+27838884567` returns messages 2 and 5.
+- Deleting by message hash removes the message and returns the confirmation text.
+- The report lists the hash, recipient and message.
+
+`MessageTest` checks message length, recipient validation, hash creation, message ID creation, the send/disregard/store options and the total messages sent.
+
+All 16 tests pass.
+
+## Automated tests (GitHub Actions)
+
+The workflow in `.github/workflows/TestJava.yml` runs `mvn test` on every push and pull request. Open the **Actions** tab of the repository to see the results.
+
